@@ -1,0 +1,39 @@
+<!-- Top Info -->
+<div id="title">
+  <span id="track"></span>
+  <div id="timer">0:00</div>
+  <div id="duration">0:00</div>
+</div>
+
+<!-- Controls -->
+<div class="controlsOuter">
+  <div class="controlsInner">
+    <div id="loading"></div>
+    <div class="btn" id="playBtn" (click)="onPlay()"></div>
+    <div class="btn" id="pauseBtn" (click)="onPause()"></div>
+    <div class="btn" id="prevBtn" (click)="onPrev()"></div>
+    <div class="btn" id="nextBtn" (click)="onNext()"></div>
+  </div>
+  <div class="btn" id="playlistBtn" (click)="onPlaylist()"></div>
+  <div class="btn" id="volumeBtn" (click)="onVolume()"></div>
+</div>
+
+<!-- Progress -->
+<div id="waveform" (click)="onSeek($event)"></div>
+<div id="bar"></div>
+<div id="progress"></div>
+
+<!-- Playlist -->
+<div id="playlist" (click)="onPlaylist()">
+  <div id="list"></div>
+</div>
+
+<!-- Volume -->
+<div id="volume" class="fadeout"
+(click)="onVolume()"
+(pointerup)="onSliderUp()"
+(pointermove)="onSliderMove($event)">
+  <div id="barFull" class="bar"></div>
+  <div id="barEmpty" class="bar" (click)="onSlider($event)"></div>
+  <div id="sliderBtn" (pointerdown)="onSliderDown()"></div>
+</div>

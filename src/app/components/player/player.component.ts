@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Howl, Howler } from 'howler';
 
 @Component({
@@ -45,6 +45,9 @@ export class PlayerComponent implements OnInit {
 
   private sliderDown = false;
 
+  @ViewChild('canvas') canvas: ElementRef;
+  @ViewChild('waveform') waveform: ElementRef;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -72,6 +75,60 @@ export class PlayerComponent implements OnInit {
       };
       this.elements.list.appendChild(div);
     });
+  }
+
+  // TODO: Find the best place to put this so it only is called once
+  private setupVisualizer() {
+    let canvas = this.canvas.nativeElement;
+    let ctx = canvas.getContext("2d");
+
+    var analyser = Howler.ctx.createAnalyser();
+    Howler.masterGain.connect(analyser);
+    analyser.fftSize = 2048;
+    let data = new Uint8Array(analyser.frequencyBinCount);
+    requestAnimationFrame(loopingFunction);
+
+    function loopingFunction() {
+      requestAnimationFrame(loopingFunction);
+      analyser.getByteFrequencyData(data);
+      const max = 20000;
+      draw(data.slice(0, data.length - (24000 - max) / 24000 * data.length));
+    }
+
+    // // Linear
+    // function draw(data) {
+    //   data = [...data];
+    //   ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //   let space = canvas.width / data.length;
+    //   data.forEach((value, i) => {
+    //     let amp = value / 256 * canvas.height;
+    //     ctx.beginPath();
+    //     ctx.moveTo(space * i, canvas.height);
+    //     ctx.lineTo(space * i, canvas.height - value);
+    //     ctx.strokeStyle = 'rgb(' + (amp + 100) + ',50,50)'
+    //     ctx.stroke();
+    //   })
+    // }
+
+    // Polar
+    function draw(data) {
+      data = [...data];
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let radius = Math.min(canvas.width, canvas.height) / 2;
+      let theta = 2 * Math.PI / data.length;
+      data.forEach((value, i) => {
+        let amp = value / 256 * radius;
+        let x0 = radius * Math.cos(theta * i) + radius;
+        let y0 = radius - radius * Math.sin(theta * i);
+        let x1 = (radius - amp) * Math.cos(theta * i) + radius;
+        let y1 = radius - (radius - amp) * Math.sin(theta * i);
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.strokeStyle = 'rgb(' + (amp + 100) + ',50,50)'
+        ctx.stroke();
+      })
+    }
   }
 
   onPlay() {
@@ -136,14 +193,12 @@ export class PlayerComponent implements OnInit {
     } else {
       sound = data.howl = new Howl({
         src: [data.file],
-        html5: true, // Force to HTML5 so that the audio can stream in (best for large files).
+        // html5: true, // Force to HTML5 so that the audio can stream in (best for large files).
         onplay: () => {
           // Display the duration.
           this.elements.duration.innerHTML = this.formatTime(Math.round(sound.duration()));
-
           // Start upating the progress of the track.
           requestAnimationFrame(this.step.bind(this));
-
           // Start the wave animation if we have already loaded
           this.elements.waveform.style.display = 'block';
           this.elements.bar.style.display = 'none';
@@ -196,6 +251,8 @@ export class PlayerComponent implements OnInit {
 
     // Keep track of the index we are currently playing.
     this.index = index;
+    
+    this.setupVisualizer();
   }
 
   /**

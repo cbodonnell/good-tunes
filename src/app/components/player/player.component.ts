@@ -38,7 +38,12 @@ export class PlayerComponent implements OnInit {
       title: 'Strobe',
       file: 'assets/mp3/Strobe.mp3',
       howl: null
-    } as any,
+    },
+    {
+      title: 'Levels',
+      file: 'assets/mp3/Levels.mp3',
+      howl: null
+    },
   ];
 
   private player: any;
@@ -47,6 +52,8 @@ export class PlayerComponent implements OnInit {
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('waveform') waveform: ElementRef;
+
+  private isVisualizerSetup = false;
 
   constructor() { }
 
@@ -81,18 +88,22 @@ export class PlayerComponent implements OnInit {
   private setupVisualizer() {
     let canvas = this.canvas.nativeElement;
     let ctx = canvas.getContext("2d");
+    // const minFreq = Math.exp(3.0); // ~20 hz
+    const minFreq = 20;
+    // const maxFreq = Math.exp(9.9); // ~20000 hz
+    const maxFreq = 20000;
 
     var analyser = Howler.ctx.createAnalyser();
     Howler.masterGain.connect(analyser);
     analyser.fftSize = 2048;
     let data = new Uint8Array(analyser.frequencyBinCount);
     requestAnimationFrame(loopingFunction);
+    this.isVisualizerSetup = true;
 
     function loopingFunction() {
       requestAnimationFrame(loopingFunction);
       analyser.getByteFrequencyData(data);
-      const max = 20000;
-      draw(data.slice(0, data.length - (24000 - max) / 24000 * data.length));
+      draw(data.slice(0, data.length - (24000 - maxFreq) / 24000 * data.length));
     }
 
     // // Linear
@@ -113,19 +124,26 @@ export class PlayerComponent implements OnInit {
     // Polar
     function draw(data) {
       data = [...data];
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let bufferWidth = maxFreq / data.length; // Logarithmic
       let radius = Math.min(canvas.width, canvas.height) / 2;
-      let theta = 2 * Math.PI / data.length;
+      // let theta = 2 * Math.PI / data.length; // Linear
       data.forEach((value, i) => {
+        let freq = bufferWidth * (i + 1); // Logarithmic
         let amp = value / 256 * radius;
-        let x0 = radius * Math.cos(theta * i) + radius;
-        let y0 = radius - radius * Math.sin(theta * i);
-        let x1 = (radius - amp) * Math.cos(theta * i) + radius;
-        let y1 = radius - (radius - amp) * Math.sin(theta * i);
+        // let delta = theta * i; // Linear
+        let delta = 2 * Math.PI * (Math.log(freq) - Math.log(minFreq)) / (Math.log(maxFreq) - Math.log(minFreq)); // Logarithmic
+        let x0 = radius * Math.cos(delta) + (canvas.width / 2);
+        let y0 = (canvas.height / 2) - radius * Math.sin(delta);
+        let x1 = (radius - amp) * Math.cos(delta) + (canvas.width / 2);
+        let y1 = (canvas.height / 2) - (radius - amp) * Math.sin(delta);
         ctx.beginPath();
         ctx.moveTo(x0, y0);
         ctx.lineTo(x1, y1);
         ctx.strokeStyle = 'rgb(' + (amp + 100) + ',50,50)'
+        ctx.lineWidth = Math.ceil((2 * Math.PI - delta) * 2);
         ctx.stroke();
       })
     }
@@ -252,7 +270,8 @@ export class PlayerComponent implements OnInit {
     // Keep track of the index we are currently playing.
     this.index = index;
     
-    this.setupVisualizer();
+    if (!this.isVisualizerSetup)
+      this.setupVisualizer();
   }
 
   /**

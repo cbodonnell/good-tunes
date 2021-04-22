@@ -143,7 +143,7 @@ export class PlayerComponent implements OnInit {
         ctx.moveTo(x0, y0);
         ctx.lineTo(x1, y1);
         ctx.strokeStyle = 'rgb(' + (amp + 100) + ',50,50)'
-        ctx.lineWidth = Math.ceil((2 * Math.PI - delta) * 2);
+        ctx.lineWidth = (2 * Math.PI - delta) * 2;
         ctx.stroke();
       })
     }

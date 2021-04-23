@@ -44,6 +44,26 @@ export class PlayerComponent implements OnInit {
       file: 'assets/mp3/Levels.mp3',
       howl: null
     },
+    {
+      title: 'One More Cupcake',
+      file: 'assets/mp3/One_More_Cupcake.mp3',
+      howl: null
+    },
+    {
+      title: 'Movements',
+      file: 'assets/mp3/Movements.mp3',
+      howl: null
+    },
+    {
+      title: 'I Cry',
+      file: 'assets/mp3/I_Cry.mp3',
+      howl: null
+    },
+    {
+      title: 'Lights Dubstep',
+      file: 'assets/mp3/Lights_Dubstep.mp3',
+      howl: null
+    },
   ];
 
   private player: any;
@@ -88,10 +108,8 @@ export class PlayerComponent implements OnInit {
   private setupVisualizer() {
     let canvas = this.canvas.nativeElement;
     let ctx = canvas.getContext("2d");
-    // const minFreq = Math.exp(3.0); // ~20 hz
-    const minFreq = 20;
-    // const maxFreq = Math.exp(9.9); // ~20000 hz
-    const maxFreq = 20000;
+    const minFreq = 20; // Hz
+    const maxFreq = 20000; // Hz
 
     var analyser = Howler.ctx.createAnalyser();
     Howler.masterGain.connect(analyser);
@@ -132,7 +150,8 @@ export class PlayerComponent implements OnInit {
       // let theta = 2 * Math.PI / data.length; // Linear
       data.forEach((value, i) => {
         let freq = bufferWidth * (i + 1); // Logarithmic
-        let amp = value / 256 * radius;
+        let normal = value / 256;
+        let amp = normal * radius;
         // let delta = theta * i; // Linear
         let delta = 2 * Math.PI * (Math.log(freq) - Math.log(minFreq)) / (Math.log(maxFreq) - Math.log(minFreq)); // Logarithmic
         let x0 = radius * Math.cos(delta) + (canvas.width / 2);
@@ -142,7 +161,14 @@ export class PlayerComponent implements OnInit {
         ctx.beginPath();
         ctx.moveTo(x0, y0);
         ctx.lineTo(x1, y1);
-        ctx.strokeStyle = 'rgb(' + (amp + 100) + ',50,50)'
+        let a = [113,243,187]; // triade of background gradient A color
+        let b = [61,77,145]; // triade of background gradient B color
+        // let a = [169,243,113];
+        // let b = [145,129,61];
+        ctx.strokeStyle = 'rgb(' + ((Math.max(a[0], b[0]) - Math.min(a[0], b[0])) * normal + Math.min(a[0], b[0])) + ',' + 
+        ((Math.max(a[1], b[1]) - Math.min(a[1], b[1])) * normal + Math.min(a[1], b[1])) + ',' + 
+        ((Math.max(a[2], b[2]) - Math.min(a[2], b[2])) * normal + Math.min(a[2], b[2])) + ')';
+        // ctx.strokeStyle = 'rgb(' + (amp + 100) + ',50,50)';
         ctx.lineWidth = (2 * Math.PI - delta) * 2;
         ctx.stroke();
       })

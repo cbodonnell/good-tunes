@@ -64,6 +64,11 @@ export class PlayerComponent implements OnInit {
       file: 'assets/mp3/Lights_Dubstep.mp3',
       howl: null
     },
+    {
+      title: 'Julia',
+      file: 'assets/mp3/Julia.wav',
+      howl: null
+    },
   ];
 
   private player: any;

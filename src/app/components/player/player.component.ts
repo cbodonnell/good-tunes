@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Howl, Howler } from 'howler';
+import { Song } from 'src/app/interfaces/Song';
 
 @Component({
   selector: 'app-player',
@@ -32,42 +33,38 @@ export class PlayerComponent implements OnInit {
 
   private elements: any = {};
 
+  // TODO: File upload sources
+  // TODO: Web sources
+  // TODO: Read audio metadata (tags)
   private index = 0;
-  private playlist = [
+  private playlist: Song[] = [
     {
       title: 'Strobe',
-      file: 'assets/mp3/Strobe.mp3',
-      howl: null
+      file: 'assets/mp3/Strobe.mp3'
     },
     {
       title: 'Levels',
-      file: 'assets/mp3/Levels.mp3',
-      howl: null
+      file: 'assets/mp3/Levels.mp3'
     },
     {
       title: 'One More Cupcake',
-      file: 'assets/mp3/One_More_Cupcake.mp3',
-      howl: null
+      file: 'assets/mp3/One_More_Cupcake.mp3'
     },
     {
       title: 'Movements',
-      file: 'assets/mp3/Movements.mp3',
-      howl: null
+      file: 'assets/mp3/Movements.mp3'
     },
     {
       title: 'I Cry',
-      file: 'assets/mp3/I_Cry.mp3',
-      howl: null
+      file: 'assets/mp3/I_Cry.mp3'
     },
     {
       title: 'Lights Dubstep',
-      file: 'assets/mp3/Lights_Dubstep.mp3',
-      howl: null
+      file: 'assets/mp3/Lights_Dubstep.mp3'
     },
     {
       title: 'Julia',
-      file: 'assets/mp3/Julia.wav',
-      howl: null
+      file: 'assets/mp3/Julia.wav'
     },
   ];
 

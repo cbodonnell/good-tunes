@@ -16,8 +16,6 @@ export class FileComponent implements OnInit {
   }
 
   uploadFile(evt){
-    // evt is an array of the file(s) dropped on our div. Here we're assuming only one file has been uploaded
-    // console.log('evt', evt);
     const reader = (file) => {
       return new Promise((resolve, reject) => {
           const fileReader = new FileReader();
@@ -31,17 +29,6 @@ export class FileComponent implements OnInit {
         file: result
       });
     });
-    // let payload = new FormData();
-    // payload.append('data', evt[0]);
-    // // File can now be uploaded by doing an http post with the payload
-    // console.log(payload);
-
-    // var fr=new FileReader();
-    // fr.onload=function(){
-    //   console.log(fr.result);
-    // }
-      
-    // fr.readAsText(evt[0]);
   }
 
 }

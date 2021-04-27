@@ -33,39 +33,38 @@ export class PlayerComponent implements OnInit {
 
   private elements: any = {};
 
-  // TODO: File upload sources
   // TODO: Web sources
   // TODO: Read audio metadata (tags)
   private index = 0;
   private playlist: Song[] = [
-    {
-      title: 'Strobe',
-      file: 'assets/mp3/Strobe.mp3'
-    },
-    {
-      title: 'Levels',
-      file: 'assets/mp3/Levels.mp3'
-    },
-    {
-      title: 'One More Cupcake',
-      file: 'assets/mp3/One_More_Cupcake.mp3'
-    },
-    {
-      title: 'Movements',
-      file: 'assets/mp3/Movements.mp3'
-    },
-    {
-      title: 'I Cry',
-      file: 'assets/mp3/I_Cry.mp3'
-    },
-    {
-      title: 'Lights Dubstep',
-      file: 'assets/mp3/Lights_Dubstep.mp3'
-    },
-    {
-      title: 'Julia',
-      file: 'assets/mp3/Julia.wav'
-    },
+    // {
+    //   title: 'Strobe',
+    //   file: 'assets/mp3/Strobe.mp3'
+    // },
+    // {
+    //   title: 'Levels',
+    //   file: 'assets/mp3/Levels.mp3'
+    // },
+    // {
+    //   title: 'One More Cupcake',
+    //   file: 'assets/mp3/One_More_Cupcake.mp3'
+    // },
+    // {
+    //   title: 'Movements',
+    //   file: 'assets/mp3/Movements.mp3'
+    // },
+    // {
+    //   title: 'I Cry',
+    //   file: 'assets/mp3/I_Cry.mp3'
+    // },
+    // {
+    //   title: 'Lights Dubstep',
+    //   file: 'assets/mp3/Lights_Dubstep.mp3'
+    // },
+    // {
+    //   title: 'Julia',
+    //   file: 'assets/mp3/Julia.wav'
+    // },
   ];
 
   private player: any;
@@ -92,7 +91,9 @@ export class PlayerComponent implements OnInit {
 
   private setupPlayer() {
     // Display the title of the first track.
-    this.elements.track.innerHtml = '1. ' + this.playlist[0].title;
+    if (this.playlist.length > 0) {
+      this.elements.track.innerHtml = '1. ' + this.playlist[0].title;
+    }
     
     // Setup the playlist display.
     this.playlist.forEach((song) => {
@@ -102,7 +103,7 @@ export class PlayerComponent implements OnInit {
       div.onclick = () => {
         this.player.skipTo(this.playlist.indexOf(song));
       };
-      this.elements.list.appendChild(div);
+      // this.elements.list.appendChild(div);
     });
   }
 
@@ -176,6 +177,13 @@ export class PlayerComponent implements OnInit {
       })
     }
   }
+
+  onFileLoad(event: Song) {
+    this.elements.track.innerHtml = event.title;
+    this.playlist.push(event);
+  }
+
+  
 
   onPlay() {
     this.play(this.index);

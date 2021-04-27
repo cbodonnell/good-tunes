@@ -25,7 +25,8 @@
 
 <!-- Playlist -->
 <div id="playlist" (click)="onPlaylist()">
-  <div id="list"></div>
+  <!-- <div id="list"></div> -->
+  <!-- <app-file (onFileLoad)="onFileLoad($event)"></app-file> -->
 </div>
 
 <!-- Volume -->
@@ -40,4 +41,8 @@
 
 <div class="canvas-container">
   <canvas #canvas class="canvas" width="500" height="500"></canvas>
+</div>
+
+<div class="file-container">
+  <app-file (onFileLoad)="onFileLoad($event)"></app-file>
 </div>

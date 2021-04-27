@@ -1,0 +1,17 @@
+.drag-area {
+    // position: absolute;
+    height: 100%;
+    width: 100%;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+}
+
+.drag-message {
+    color: #fff;
+    background: transparent;
+    // opacity: 0;
+}

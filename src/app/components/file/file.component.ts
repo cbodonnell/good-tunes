@@ -15,7 +15,7 @@ export class FileComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  uploadFile(evt){
+  uploadFile(event) {
     const reader = (file) => {
       return new Promise((resolve, reject) => {
           const fileReader = new FileReader();
@@ -23,12 +23,20 @@ export class FileComponent implements OnInit {
           fileReader.readAsDataURL(file);
       });
     }
-    reader(evt[0]).then((result: string) => {
+    reader(event[0]).then((result: string) => {
       this.onFileLoad.emit({
-        title: evt[0].name,
+        title: event[0].name,
         file: result
       });
     });
+  }
+
+  onFileChange(event) {
+    this.uploadFile(event.target.files); 
+  }
+
+  onFileClick(event) {
+    event.stopPropagation();
   }
 
 }

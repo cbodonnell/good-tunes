@@ -1,5 +1,20 @@
-<div class="drag-area"
-appUpload 
-(onFileDropped)="uploadFile($event)">
-    <p class="drag-message">Drag and drop a file here!</p>
+<div>
+    <div class="file-box">
+        <input type="file" class="file-input"
+        (change)="onFileChange($event)"
+        (click)="onFileClick($event)"
+        placeholder="Upload file..."/>
+        <div class="or">
+            or
+        </div>
+        <div class="drag-container">
+            <div class="drag-area"
+            appUpload 
+            (onFileDropped)="uploadFile($event)">
+            </div>
+            <div class="drag-area-overlay">
+                <p class="drag-message">Drag and drop a file here!</p>
+            </div>
+        </div>
+    </div>
 </div>

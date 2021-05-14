@@ -1,5 +1,36 @@
+.file-box {
+    text-align: center;
+}
+
+.file-input {
+    color: #fff;
+    margin: 24px 0px;
+}
+
+.or {
+    color: #fff
+}
+
+.drag-container {
+    // width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed #fff;
+    border-radius: 5px;
+    margin: 24px;
+}
+
+.drag-area-overlay {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .drag-area {
-    height: 100%;
+    height: 250px;
     width: 100%;
     background: none;
     display: flex;
@@ -7,6 +38,7 @@
     justify-content: center;
     align-items: center;
     opacity: 0;
+    z-index: 10;
 }
 
 .drag-message {

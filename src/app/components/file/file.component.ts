@@ -10,6 +10,13 @@ export class FileComponent implements OnInit {
 
   @Output() onFileLoad = new EventEmitter<Song>();
 
+  // TODO: Add support for an activity stream
+  // Ex: @bixlinux@funkwhale.it
+  // Ex: https://funkwhale.it/.well-known/webfinger?resource=acct:bixlinux@funkwhale.it
+  // Ex: https://funkwhale.it/federation/actors/bixlinux (-H 'Accept: application/activity+json')
+  // Ex: https://funkwhale.it/federation/actors/bixlinux/outbox (-H 'Accept: application/activity+json')
+  // Ex: https://funkwhale.it/federation/actors/bixlinux/outbox?page=1 (-H 'Accept: application/activity+json')
+
   constructor() { }
 
   ngOnInit(): void {

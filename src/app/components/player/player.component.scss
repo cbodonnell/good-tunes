@@ -1,16 +1,23 @@
 /* Top Info */
 #title {
     position: absolute;
+    display: flex;
     width: 100%;
     top: 3%;
     line-height: 34px;
     height: 34px;
     text-align: center;
     font-size: 34px;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    justify-content: center;
     opacity: 0.9;
     font-weight: 300;
     color: #fff;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.33);
+}
+#track {
+    max-width: 60%;
 }
 #timer {
     position: absolute;
@@ -41,13 +48,16 @@
     width: 100%;
     height: 70px;
     bottom: 3%;
+    display: flex;
+    justify-content: center;
 }
 .controlsInner {
     position: absolute;
-    width: 340px;
+    width: 60%;
+    max-width: 400px;
     height: 70px;
-    left: 50%;
-    margin: 0 -170px;
+    // left: 50%;
+    // margin: 0 -170px;
 }
 .btn {
     position: absolute;

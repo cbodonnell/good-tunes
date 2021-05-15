@@ -172,7 +172,7 @@ export class PlayerComponent implements OnInit {
         ((Math.max(a[1], b[1]) - Math.min(a[1], b[1])) * normal + Math.min(a[1], b[1])) + ',' + 
         ((Math.max(a[2], b[2]) - Math.min(a[2], b[2])) * normal + Math.min(a[2], b[2])) + ')';
         // ctx.strokeStyle = 'rgb(' + (amp + 100) + ',50,50)';
-        ctx.lineWidth = (2 * Math.PI - delta) * 2;
+        ctx.lineWidth = (2 * Math.PI - delta) * radius / 300;
         ctx.stroke();
       })
     }

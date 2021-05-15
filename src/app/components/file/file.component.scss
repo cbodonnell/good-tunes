@@ -5,15 +5,18 @@
 .file-input {
     color: #fff;
     margin: 24px 0px;
+    margin-top: 250px;
+    font-size: medium;
 }
 
 .or {
-    color: #fff
+    display: none;
+    color: #fff;
 }
 
 .drag-container {
     // width: 100%;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     border: 1px dashed #fff;
@@ -21,9 +24,22 @@
     margin: 24px;
 }
 
+@media only screen and (min-width: 768px) {
+    .or {
+        display: block;
+    }
+    .drag-container,
+    .drag-area-overlay {
+        display: flex !important;
+    }
+    .file-input {
+        margin-top: 24px;
+    }
+}
+
 .drag-area-overlay {
     position: absolute;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;

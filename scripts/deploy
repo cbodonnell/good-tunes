@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo rsync -av --progress ./dist/good-tunes/ /var/www/music --delete

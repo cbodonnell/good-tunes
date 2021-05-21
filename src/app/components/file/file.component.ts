@@ -16,6 +16,9 @@ export class FileComponent implements OnInit {
   // Ex: https://funkwhale.it/federation/actors/bixlinux (-H 'Accept: application/activity+json')
   // Ex: https://funkwhale.it/federation/actors/bixlinux/outbox (-H 'Accept: application/activity+json')
   // Ex: https://funkwhale.it/federation/actors/bixlinux/outbox?page=1 (-H 'Accept: application/activity+json')
+  // Client to server is for POST requests to an actor's oubox (requires auth of user)
+  // Server to server is for POST requests to an actor's inbox for propagation
+  // GET requests are for discovery??
 
   constructor() { }
 

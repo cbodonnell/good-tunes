@@ -36,7 +36,8 @@ export class FileComponent implements OnInit {
     reader(event[0]).then((result: string) => {
       this.onFileLoad.emit({
         title: event[0].name,
-        file: result
+        file: result,
+        format: event[0].type
       });
     });
   }

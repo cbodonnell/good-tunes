@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Howl, Howler } from 'howler';
 import { Song } from 'src/app/interfaces/Song';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-player',
@@ -39,12 +40,12 @@ export class PlayerComponent implements OnInit {
   private playlist: Song[] = [
     {
       title: 'Linux Group News - Ep. 14 - Lug News',
-      file: 'http://localhost:8080/https://funkwhale.it/api/v1/listen/b2355f4f-ab1c-4c40-87b5-a66e9534c5bc/?upload=82e99763-4916-4c0a-81d0-33995a524615&download=false',
+      file: `${environment.proxy}?url=https://funkwhale.it/api/v1/listen/b2355f4f-ab1c-4c40-87b5-a66e9534c5bc/?upload=82e99763-4916-4c0a-81d0-33995a524615&download=false`,
       format: 'audio/ogg'
     },
     {
-      title: 'Linux Group News - Ep. 14 - Lug News',
-      file: 'http://localhost:8080/https://funkwhale.it/api/v1/listen/8100c5d3-1385-4a6c-95f3-50e60563d321/?upload=accd7084-51e5-4a73-b5fe-a16746a64d17&download=false',
+      title: 'Song',
+      file: `${environment.proxy}?url=https://funkwhale.it/api/v1/listen/8100c5d3-1385-4a6c-95f3-50e60563d321/?upload=accd7084-51e5-4a73-b5fe-a16746a64d17&download=false`,
       format: 'audio/flac'
     },
     // {
@@ -260,6 +261,7 @@ export class PlayerComponent implements OnInit {
         format: [data.format.replace('audio/', '')],
         // html5: true, // Force to HTML5 so that the audio can stream in (best for large files).
         // format:['mp3', 'ogg', 'acc', 'wav'],
+        xhr: { withCredentials: true },
         onplay: () => {
           // Display the duration.
           this.elements.duration.innerHTML = this.formatTime(Math.round(sound.duration()));
